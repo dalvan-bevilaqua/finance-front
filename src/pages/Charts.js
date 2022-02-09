@@ -91,7 +91,7 @@ export default class Charts extends PureComponent {
                     activeIndex={this.state.activeIndex}
                     activeShape={renderActiveShape}
                     onMouseEnter={this.onPieEnter}
-                    cx="50%"
+                    cx="45%"
                     cy="50%"
                     labelLine={false}
                     label={renderCustomizedLabel}
