@@ -1,10 +1,13 @@
+import React from 'react';
 
 
-
-const Previsao = () => {
-    return <>
-        <p>Previsão</p>
-    </>;
+class Previsao extends React.Component {
+    render() {
+        return <>
+            <p>Previsão</p>
+            {`${this.props.referencia.mes}/${this.props.referencia.ano}`}
+        </>;
+    }
 };
 
 export default Previsao;
