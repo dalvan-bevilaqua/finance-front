@@ -1,11 +1,2 @@
-# SPA router support.
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
-# api redirect.
-[[redirects]]
-  from = "v1/*"
-  to = "https://bd-finance-api.herokuapp.com/:splat"
-  status = 200
+/*    /index.html   200
+v1/*  https://bd-finance-api.herokuapp.com/:splat   200
