@@ -2,7 +2,6 @@ import axios from 'axios';
 
 export const userService = {
     login,
-
 };
 
 async function login(username, password) {
@@ -13,8 +12,9 @@ async function login(username, password) {
     };
 
     console.log(headers);
-
-    await axios.post(`api/v1/usuario/autenticar`, {}, {
+    var url = process.env.REACT_APP_API_URL + 'api/v1/usuario/autenticar'
+    console.log(url);
+    await axios.post(url, {}, {
         headers
     }).then(res => {
         console.log(res.data)
