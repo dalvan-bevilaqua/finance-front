@@ -6,6 +6,6 @@ export const despesaService = {
 };
 
 async function getDespesa() {
-    const res = await axios.get(`https://bd-finance-api.herokuapp.com/api/v1/despesa/buscar`);
+    const res = await axios.get(`api/v1/despesa/buscar`);
     return res;
 }
