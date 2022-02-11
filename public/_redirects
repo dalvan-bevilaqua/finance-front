@@ -6,6 +6,6 @@
 
 # api redirect.
 [[redirects]]
-  from = "/v1/*"
+  from = "v1/*"
   to = "https://bd-finance-api.herokuapp.com/:splat"
   status = 200
