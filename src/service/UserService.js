@@ -14,7 +14,7 @@ async function login(username, password) {
 
     console.log(headers);
 
-    await axios.post(`v1/usuario/autenticar`, {}, {
+    await axios.post(`api/v1/usuario/autenticar`, {}, {
         headers
     }).then(res => {
         console.log(res.data)
