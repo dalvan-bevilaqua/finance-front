@@ -14,7 +14,6 @@
     "moment": "^2.29.1",
     "rc-if": "0.0.12",
     "react": "^17.0.2",
-    "react-alert": "^7.0.3",
     "react-bootstrap": "^2.1.2",
     "react-chartjs-2": "^4.0.1",
     "react-data-table-component": "^7.4.7",
