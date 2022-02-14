@@ -81,10 +81,10 @@ class Calendario extends React.Component {
                             <BsFillArrowLeftCircleFill />
                         </Button>
                     </Col>
-                    <Col xs lg="1">
+                    <Col xs lg="1" >
                         <h4>{`${this.state.meses[this.state.mes].descricao}/${this.state.ano}`}</h4>
                     </Col>
-                    <Col xs lg="1">
+                    <Col xs lg="2">
                         <Button variant="light" onClick={this.nextMonth}>
                             <BsFillArrowRightCircleFill />
                         </Button>

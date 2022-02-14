@@ -5,7 +5,8 @@ import { decode as base64_decode, encode as base64_encode } from 'base-64';
 export const CookieService = {
     setUserInCookie,
     getUserOfCookie,
-    getBasic
+    getBasic,
+    logout
 };
 
 async function setUserInCookie(user, password) {
@@ -21,6 +22,11 @@ async function getUserOfCookie(user, password) {
     let value = decoded.split("|")
 
     return 'Basic ' + base64_encode(value[0] + ':' + value[1]);
+}
+
+async function logout() {
+    const cookies = new Cookies();
+    cookies.remove('session')
 }
 
 async function getBasic(user, password) {

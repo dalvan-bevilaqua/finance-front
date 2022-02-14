@@ -3,10 +3,11 @@ import styled from 'styled-components';
 
 export const Nav = styled.nav`
 background: #11C76F;
-height: 75px;
+height: 70px;
 display: flex;
 justify-content: space-between;
 padding-left: 15%;
+padding-top: 20px;
 `;
 
 export const NavLink = styled(Link)`
@@ -25,12 +26,8 @@ cursor: pointer;
 export const NavMenu = styled.div`
 display: flex;
 align-items: center;
-margin-right: -24px;
 font-size: 17px;
 white-space: nowrap;
-@media screen and (max-width: 768px) {
-	display: none;
-}
 `;
 
 export const NavBtnLink = styled(Link)`

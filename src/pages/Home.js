@@ -1,4 +1,3 @@
-import Charts from './Charts';
 import React from 'react';
 
 class Home extends React.Component {
@@ -6,7 +5,6 @@ class Home extends React.Component {
         return <>
             <p>Home</p>
             {`${this.props.referencia.mes}/${this.props.referencia.ano}`}
-            <Charts></Charts>
 
         </>;
     }

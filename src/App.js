@@ -1,3 +1,4 @@
+import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Container from 'react-bootstrap/Container'
 
@@ -5,15 +6,16 @@ import Home from './pages/Home';
 import Investimento from './pages/Investimento';
 import Despesa from './pages/Despesa';
 import Previsao from './pages/Previsao';
-import Authentication from './pages/Authentication';
+import Login from './pages/login/Login'
 
 import Header from './pages/Header';
 import Calendario from './components/Calendario';
-
+import { userService } from "./service/UserService";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React from 'react';
-
+import RcIf from 'rc-if';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const container = {
   marginLeft: '15%',
   width: '80%',
@@ -27,31 +29,60 @@ const container = {
 
 export default class App extends React.Component {
 
+  componentDidMount() {
+    this.validaLogin();
+  }
+
   state = {
     mes: 8,
-    ano: 2025
+    ano: 2025,
+    loginActive: false
   }
 
   handleReferencia = (value) => {
     this.setState({ mes: value.mes, ano: value.ano })
   }
 
+  handleLoginActive = (value) => {
+    this.setState({ loginActive: value })
+  }
+
+  validaLogin = () => {
+    userService.validaLogin().then(res => {
+      this.handleLoginActive(res);
+    })
+  }
+
+  handleLogout = () => {
+    userService.logout().then(res => {
+      this.handleLoginActive(res);
+      this.context.history.push('/');
+    })
+  }
+
+
+
   render() {
     return (
       <>
-        <Header />
-        <Calendario referencia={this.state} onHanldeReferencia={this.handleReferencia} />
-        <Container fluid style={container}>
-          <Routes>
-            <Route path='/' element={<Home referencia={this.state} />} />
-            <Route path='/investimentos' element={<Investimento referencia={this.state} />} />
-            <Route path='/despesas' element={<Despesa referencia={this.state} />} />
-            <Route path='/previsao' element={<Previsao referencia={this.state} />} />
-            <Route path='/autenticar' element={<Authentication />} />
-          </Routes>
-        </Container>
-
+        <RcIf if={this.state.loginActive} >
+          <Header onHandleLogout={this.handleLogout} />
+          <Calendario referencia={this.state} onHanldeReferencia={this.handleReferencia} />
+          <Container fluid style={container}>
+            <Routes>
+              <Route path='/' element={<Home referencia={this.state} />} />
+              <Route path='/investimentos' element={<Investimento referencia={this.state} />} />
+              <Route path='/despesas' element={<Despesa referencia={this.state} />} />
+              <Route path='/previsao' element={<Previsao referencia={this.state} />} />
+            </Routes>
+          </Container>
+        </RcIf>
+        <RcIf if={!this.state.loginActive} >
+          <Login loginActive={this.state.loginActive} onHandleLoginActive={this.handleLoginActive} />
+        </RcIf>
+        <ToastContainer closeOnClick="true" hideProgressBar="true" />
       </>
     );
   }
+
 }
