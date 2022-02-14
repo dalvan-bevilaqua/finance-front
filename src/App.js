@@ -13,7 +13,6 @@ import Calendario from './components/Calendario';
 import { userService } from "./service/UserService";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import RcIf from 'rc-if';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const container = {
@@ -63,9 +62,9 @@ export default class App extends React.Component {
 
 
   render() {
-    return (
-      <>
-        <RcIf if={this.state.loginActive} >
+    if (this.state.loginActive) {
+      return (
+        <>
           <Header onHandleLogout={this.handleLogout} />
           <Calendario referencia={this.state} onHanldeReferencia={this.handleReferencia} />
           <Container fluid style={container}>
@@ -76,13 +75,17 @@ export default class App extends React.Component {
               <Route path='/previsao' element={<Previsao referencia={this.state} />} />
             </Routes>
           </Container>
-        </RcIf>
-        <RcIf if={!this.state.loginActive} >
+          <ToastContainer closeOnClick="true" hideProgressBar="true" />
+        </>
+      )
+    } else {
+      return (
+        <>
           <Login loginActive={this.state.loginActive} onHandleLoginActive={this.handleLoginActive} />
-        </RcIf>
-        <ToastContainer closeOnClick="true" hideProgressBar="true" />
-      </>
-    );
+          <ToastContainer closeOnClick="true" hideProgressBar="true" />
+        </>
+      )
+    }
   }
 
 }
