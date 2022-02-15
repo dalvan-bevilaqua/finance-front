@@ -10,6 +10,8 @@ import Form from 'react-bootstrap/Form'
 //import DatePicker from "react-datepicker";
 //import "react-datepicker/dist/react-datepicker.css";
 import MaskedFormControl from 'react-bootstrap-maskedinput'
+import { BsFillTrashFill, BsFillCalendarPlusFill } from "react-icons/bs";
+import { toast } from 'react-toastify';
 
 class Despesa extends Component {
 
@@ -17,6 +19,12 @@ class Despesa extends Component {
         super(props);
         this.state = {
             columns: [
+                {
+                    name: 'Linha',
+                    selector: row => row.id,
+                    sortable: true,
+                    width: '5%',
+                },
                 {
                     name: 'Descricao',
                     selector: row => row.descricao,
@@ -26,12 +34,27 @@ class Despesa extends Component {
                     name: 'Valor',
                     selector: row => row.valor,
                     sortable: true,
+                    width: '15%',
                 },
                 {
                     name: 'Vencimento',
-                    selector: row => moment(row.dtDespesa).format('YYYY/MM/DD'),
+                    selector: row => moment(row.dtDespesa).format('DD/MM/YYYY'),
                     sortable: true,
-                }],
+                    width: '15%',
+                },
+                {
+                    name: 'Operação',
+                    cell: row =>
+                        <>
+                            <Button variant="danger" size="sm" style={{ marginRight: '5px' }} ><BsFillTrashFill /></Button>
+                            <Button variant="secondary" size="sm" ><BsFillCalendarPlusFill /></Button>
+                        </>,
+                    allowOverflow: true,
+                    button: true,
+                    width: '15%',
+                }
+
+            ],
             data: [],
             showModal: false,
             descricao: '',
@@ -54,10 +77,10 @@ class Despesa extends Component {
 
     getDespesa = () => {
         despesaService.getDespesa().then(res => {
-            console.log('Res', res.data)
             this.setState({
                 data: res.data
             })
+            toast.success("Processo efetuado com sucesso");
         });
     }
 
@@ -74,10 +97,13 @@ class Despesa extends Component {
         }
 
         despesaService.saveDespesa(despesa).then(res => {
-            console.log('Res', res.data)
+            this.showAndCloseModalDespesa();
             this.getDespesa();
         });
     }
+
+    deletarDespesa = () => { }
+    copiarDespesa = () => { }
 
     handleChange = (event) => {
         var stateObject = function () {
@@ -108,12 +134,19 @@ class Despesa extends Component {
             <Row>
                 <Col>
                     <DataTable
+                        title="Dados das Despesas"
+                        fixedHeader
                         columns={this.state.columns}
                         data={this.state.data}
+                        //fixedHeaderScrollHeight="500px"
+                        highlightOnHover
+                        pointerOnHover
+                        pagination
+
                     />
                 </Col>
-                <Col></Col>
-                <Col></Col>
+
+
             </Row>
 
             <Modal size="lg" show={this.state.showModal} onHide={this.showAndCloseModalDespesa} >
