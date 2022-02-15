@@ -15,6 +15,9 @@ import { userService } from "./service/UserService";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Grupo from './pages/Grupo';
+
+
 const container = {
   marginLeft: '15%',
   width: '80%',
@@ -33,8 +36,8 @@ export default class App extends React.Component {
   }
 
   state = {
-    mes: 8,
-    ano: 2025,
+    mes: 0,
+    ano: 2022,
     loginActive: false
   }
 
@@ -59,8 +62,6 @@ export default class App extends React.Component {
     })
   }
 
-
-
   render() {
     if (this.state.loginActive) {
       return (
@@ -72,6 +73,7 @@ export default class App extends React.Component {
               <Route path='/' element={<Home referencia={this.state} />} />
               <Route path='/investimentos' element={<Investimento referencia={this.state} />} />
               <Route path='/despesas' element={<Despesa referencia={this.state} />} />
+              <Route path='/grupo' element={<Grupo referencia={this.state} />} />
               <Route path='/previsao' element={<Previsao referencia={this.state} />} />
             </Routes>
           </Container>

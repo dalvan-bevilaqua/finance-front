@@ -32,6 +32,9 @@ class Header extends React.Component {
                             <NavLink to='/previsao' activeStyle>
                                 Previsão
                             </NavLink>
+                            <NavLink to='/grupo' activeStyle>
+                                Grupo
+                            </NavLink>
                         </NavMenu>
                     </Col>
                     <Col xs lg="2">

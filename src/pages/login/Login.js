@@ -24,10 +24,12 @@ class Login extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
         userService.login(this.state.usuario, this.state.senha).then(res => {
+
             if (res === 'autenticado') {
                 this.props.onHandleLoginActive(true);
                 return;
             }
+
             toast.error("Não foi possível efetuar o Login");
 
         })
@@ -38,7 +40,7 @@ class Login extends React.Component {
             <div className='loginContainer'>
                 <div className='carLogin'>
                     <h2>Finance</h2>
-                    <Form className='rounded p-4 p-sm-3' onSubmit={this.handleSubmit} >
+                    <Form className='rounded p-4 p-sm-3 formLogin' onSubmit={this.handleSubmit} >
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                             <Form.Label>Usuário</Form.Label>
                             <Form.Control type="text" placeholder="Digite o usuário" name="usuario" value={this.state.usuario} onChange={this.handleChange} />
