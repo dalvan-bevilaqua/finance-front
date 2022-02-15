@@ -3,11 +3,22 @@ import Row from 'react-bootstrap/Row'
 import React from 'react';
 import Col from 'react-bootstrap/Col'
 import { BsFillArrowRightCircleFill, BsFillArrowLeftCircleFill } from "react-icons/bs";
+import './calendario.css';
 
 const calendario = {
-    marginTop: '10px',
+
     alignItems: 'center',
     textAlign: 'center',
+    color: 'white'
+};
+
+const rowCalendario = {
+    maxWidth: "18%",
+    backgroundColor: '#11C76F',
+    height: '45px',
+    textAlign: 'center',
+    marginTop: '-10px',
+    borderRadius: '0px 0px 30px 30px'
 };
 
 class Calendario extends React.Component {
@@ -75,22 +86,24 @@ class Calendario extends React.Component {
     render() {
         return (
             <div style={calendario}>
-                <Row className="justify-content-md-center">
-                    <Col xs lg="1">
-                        <Button variant="light" onClick={this.backMonth}>
-                            <BsFillArrowLeftCircleFill />
-                        </Button>
-                    </Col>
-                    <Col xs lg="1" >
-                        <h4>{`${this.state.meses[this.state.mes].descricao}/${this.state.ano}`}</h4>
-                    </Col>
-                    <Col xs lg="1">
-                        <Button variant="light" onClick={this.nextMonth}>
-                            <BsFillArrowRightCircleFill />
-                        </Button>
-                    </Col>
+                <Row className="justify-content-md-center" >
+                    <Row style={rowCalendario}>
+                        <Col xs={2}>
+                            <Button variant="outline-light" onClick={this.backMonth}>
+                                <BsFillArrowLeftCircleFill />
+                            </Button>
+                        </Col>
+                        <Col xs={8} >
+                            <h4>{`${this.state.meses[this.state.mes].descricao}/${this.state.ano}`}</h4>
+                        </Col>
+                        <Col xs={2}>
+                            <Button variant="outline-light" onClick={this.nextMonth}>
+                                <BsFillArrowRightCircleFill />
+                            </Button>
+                        </Col>
+                    </Row>
                 </Row>
-            </ div>
+            </ div >
         );
     }
 };

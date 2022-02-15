@@ -77,7 +77,7 @@ export default class App extends React.Component {
               <Route path='/previsao' element={<Previsao referencia={this.state} />} />
             </Routes>
           </Container>
-          <ToastContainer closeOnClick="true" hideProgressBar="true" />
+          <ToastContainer position="bottom-right" closeOnClick="true" hideProgressBar="true" />
         </>
       )
     } else {

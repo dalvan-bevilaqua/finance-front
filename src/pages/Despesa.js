@@ -10,8 +10,11 @@ import Form from 'react-bootstrap/Form'
 //import DatePicker from "react-datepicker";
 //import "react-datepicker/dist/react-datepicker.css";
 import MaskedFormControl from 'react-bootstrap-maskedinput'
-import { BsFillTrashFill, BsFillCalendarPlusFill } from "react-icons/bs";
+import { BsFillTrashFill, BsCalendarPlus, BsCheck2All } from "react-icons/bs";
 import { toast } from 'react-toastify';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
+import { numberFormat } from '../utils/NumberFormat';
 
 class Despesa extends Component {
 
@@ -20,19 +23,13 @@ class Despesa extends Component {
         this.state = {
             columns: [
                 {
-                    name: 'Linha',
-                    selector: row => row.id,
-                    sortable: true,
-                    width: '5%',
-                },
-                {
                     name: 'Descricao',
                     selector: row => row.descricao,
                     sortable: true,
                 },
                 {
                     name: 'Valor',
-                    selector: row => row.valor,
+                    selector: row => numberFormat(row.valor),
                     sortable: true,
                     width: '15%',
                 },
@@ -46,8 +43,21 @@ class Despesa extends Component {
                     name: 'Operação',
                     cell: row =>
                         <>
-                            <Button variant="danger" size="sm" style={{ marginRight: '5px' }} ><BsFillTrashFill /></Button>
-                            <Button variant="secondary" size="sm" ><BsFillCalendarPlusFill /></Button>
+                            <OverlayTrigger overlay={<Tooltip id="excluir">Excluir</Tooltip>}>
+                                <span className="d-inline-block">
+                                    <Button variant="outline-danger" size="sm" style={{ marginRight: '5px' }} onClick={e => this.deletarDespesa(row.id)} ><BsFillTrashFill /></Button>
+                                </span>
+                            </OverlayTrigger>
+                            <OverlayTrigger overlay={<Tooltip id="excluir">Copiar</Tooltip>}>
+                                <span className="d-inline-block">
+                                    <Button variant="outline-secondary" size="sm" style={{ marginRight: '5px' }} onClick={e => this.copiarDespesa(row.id)} ><BsCalendarPlus /></Button>
+                                </span>
+                            </OverlayTrigger>
+                            <OverlayTrigger overlay={<Tooltip id="excluir">Pagar</Tooltip>}>
+                                <span className="d-inline-block">
+                                    <Button variant="outline-success" size="sm" onClick={e => this.copiarDespesa(row.id)} ><BsCheck2All /></Button>
+                                </span>
+                            </OverlayTrigger>
                         </>,
                     allowOverflow: true,
                     button: true,
@@ -60,13 +70,25 @@ class Despesa extends Component {
             descricao: '',
             vencimento: '',
             valor: '',
-            grupo: ''
+            grupo: '',
+            referencia: props.referencia
 
         };
     }
 
     componentDidMount() {
         this.getDespesa();
+    }
+
+    componentWillReceiveProps(props) {
+        console.log(props)
+        this.setState({
+            referencia: props.referencia
+        }, () => {
+            console.log(this.state)
+            this.getDespesa();
+        })
+
     }
 
     showAndCloseModalDespesa = () => {
@@ -76,7 +98,8 @@ class Despesa extends Component {
     }
 
     getDespesa = () => {
-        despesaService.getDespesa().then(res => {
+        let filter = { mes: this.state.referencia.mes, ano: this.state.referencia.ano }
+        despesaService.getDespesa(filter).then(res => {
             this.setState({
                 data: res.data
             })
@@ -102,8 +125,15 @@ class Despesa extends Component {
         });
     }
 
-    deletarDespesa = () => { }
-    copiarDespesa = () => { }
+    deletarDespesa = (id) => {
+        despesaService.deletar(id).then(resp => {
+            this.getDespesa();
+        });
+    }
+
+    copiarDespesa = () => {
+        toast.info("Processo de replicação de despesa ainda não disponível");
+    }
 
     handleChange = (event) => {
         var stateObject = function () {
@@ -114,6 +144,10 @@ class Despesa extends Component {
         }.bind(event)();
 
         this.setState(stateObject);
+    }
+
+    selectAllColuns = (event) => {
+        console.log(event)
     }
 
     render() {
@@ -128,7 +162,10 @@ class Despesa extends Component {
                     >
                         Buscar
                     </Button>
-                    <Button variant="outline-secondary" onClick={this.showAndCloseModalDespesa}>Adicionar</Button>
+                    <Button variant="outline-secondary" onClick={this.showAndCloseModalDespesa} style={{ marginRight: '5px' }}>Adicionar</Button>
+                    <Button variant="outline-secondary" onClick={this.showAndCloseModalDespesa} style={{ marginRight: '5px' }}>Agrupar</Button>
+                    <Button variant="outline-secondary" onClick={this.showAndCloseModalDespesa} style={{ marginRight: '5px' }}>Copiar para</Button>
+                    <Button variant="outline-secondary" onClick={this.showAndCloseModalDespesa} style={{ marginRight: '5px' }}>Sobrescrever</Button>
                 </Col>
             </Row>
             <Row>
@@ -142,10 +179,11 @@ class Despesa extends Component {
                         highlightOnHover
                         pointerOnHover
                         pagination
+                        selectableRows
+                        onSelectedRowsChange={this.selectAllColuns}
 
                     />
                 </Col>
-
 
             </Row>
 

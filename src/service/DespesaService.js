@@ -3,15 +3,16 @@ import { CookieService } from './CookieService';
 
 export const despesaService = {
     getDespesa,
-    saveDespesa
+    saveDespesa,
+    deletar
 };
 
-async function getDespesa() {
+async function getDespesa(filter) {
 
     const headers = await getHeader();
 
     var url = process.env.REACT_APP_API_URL + 'api/v1/despesa/buscar'
-    const res = await axios.get(url, { headers: headers });
+    const res = await axios.post(url, filter, { headers: headers });
     return res;
 }
 
@@ -21,6 +22,15 @@ async function saveDespesa(despesa) {
 
     var url = process.env.REACT_APP_API_URL + 'api/v1/despesa'
     const res = await axios.post(url, despesa, { headers: headers });
+    return res;
+}
+
+async function deletar(id) {
+
+    const headers = await getHeader();
+
+    var url = process.env.REACT_APP_API_URL + 'api/v1/despesa/' + id;
+    const res = await axios.delete(url, { headers: headers });
     return res;
 }
 
